@@ -1,4 +1,4 @@
-import { LifeState } from './LifeState';
+import { LifeData } from './LifeData';
 
 // A simple interface for storing coordinates
 interface Coord {
@@ -8,10 +8,10 @@ interface Coord {
 
 // Naive implementation of the calculations for the cell automaton
 // Returns the list of changed positions
-export function getChanges(state: LifeState):Coord[] {
+export function getChanges(life: LifeData):Coord[] {
     // Let's cache these data
-    const width = state.size;
-    const height = state.size;
+    const width = life.getSize();
+    const height = life.getSize();
 
     // We will collects the pending changes here
     const changes:Coord[] = [];
@@ -24,6 +24,8 @@ export function getChanges(state: LifeState):Coord[] {
     let max_y:number;
     let populated:boolean;
 
+    const space:boolean[][] = life.getMap();
+
     // Go over all the cells
     for (let x = 0; x < width; x++) {
         // Determine the cols we have to look at for neighbors
@@ -35,14 +37,14 @@ export function getChanges(state: LifeState):Coord[] {
             max_y = (y < height-1) ? y+1 : y;
 
             // Is this cell current populated?
-            populated = state.space[x][y];
+            populated = space[x][y];
 
             // Count the neighbors within this area
             let friends = 0;
             for (let nx = min_x; nx <= max_x; nx++) {
                 for (let ny = min_y; ny <= max_y; ny++) {
                     if ((nx != x) || (ny != y)) { // Isn't this the same cell
-                        if (state.space[nx][ny]) {
+                        if (space[nx][ny]) {
                             friends += 1;
                         }
                     }

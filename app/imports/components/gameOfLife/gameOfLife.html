@@ -1,0 +1,33 @@
+<header>
+  <h1>Game of Life</h1>
+</header>
+
+<div ng-class="container">
+
+  <p>This is just a technology experiment, playing with <a target="_bland" href="https://www.meteor.com/">Meteor</a> and Angular.
+    See the source <a target="_bland" href="https://github.com/csillag/game-of-life">on Github</a>.</p>
+  <p>This is a cellular automaton. You can click at the cells in the grid to create/destroy life, or click the "Evolve!" button to apply the automatic rules.</p>
+
+  <div id="controls">
+    <button ng-click="$ctrl.evolve()">
+      Evolve!
+    </button>
+    <button ng-click="$ctrl.reset()">
+      Reset
+    </button>
+    <span>Size:</span>
+    <span>{{$ctrl.size}}</span>
+  </div>
+
+  <table class="cell-grid">
+    <tbody>
+      <tr ng-repeat="y in range(0,9)">
+        <td ng-repeat="x in range(0,9)"
+            ng-class="{cell: true, alive: $ctrl.lifeMap[x][y]}"
+            ng-click="$ctrl.onCellClick(x,y)"
+        />
+      </tr>    
+    </tbody>
+  </table>
+              
+</div>
